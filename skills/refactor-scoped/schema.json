@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "status": { "type": "string", "enum": ["success"] },
+        "data": {
+          "type": "object",
+          "properties": {
+            "files_changed": { "type": "integer", "maximum": 1 },
+            "lines_changed": { "type": "integer", "maximum": 50 },
+            "unified_diff": { "type": "string" },
+            "new_dependencies_introduced": { "type": "boolean", "enum": [false] }
+          },
+          "required": ["files_changed", "lines_changed", "unified_diff", "new_dependencies_introduced"]
+        }
+      },
+      "required": ["status", "data"]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "status": { "type": "string", "enum": ["failed"] },
+        "reason": { "type": "string" },
+        "retryable": { "type": "boolean" },
+        "stage": { "type": "string", "enum": ["refactor-scoped"] },
+        "attempt": { "type": "integer", "minimum": 1 }
+      },
+      "required": ["status", "reason", "retryable", "stage", "attempt"]
+    }
+  ]
+}

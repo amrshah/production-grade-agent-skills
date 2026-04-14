@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "status": { "type": "string", "enum": ["success"] },
+        "data": {
+          "type": "object",
+          "properties": {
+            "issues": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                   "id": {"type":"string", "pattern":"^CR-[0-9]{3}$"},
+                   "severity": {"type":"string", "enum":["low","medium","high","critical"]},
+                   "location": {"type":"string", "pattern":"^.+:\\d+$"},
+                   "explanation": {"type":"string", "maxLength": 200},
+                   "fix": {"type":"string", "minLength": 10}
+                },
+                "required": ["id","severity","location","explanation","fix"]
+              }
+            },
+            "summary": {
+              "type": "object",
+              "properties": {
+                "total_issues": {"type":"integer", "minimum":0},
+                "high": {"type":"integer", "minimum":0}
+              },
+              "required": ["total_issues", "high"]
+            },
+            "overall_risk": { "type":"string", "enum":["low","medium","high","critical"] }
+          },
+          "required": ["issues", "summary", "overall_risk"]
+        }
+      },
+      "required": ["status", "data"]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "status": { "type": "string", "enum": ["failed"] },
+        "reason": { "type": "string" },
+        "retryable": { "type": "boolean" },
+        "stage": { "type": "string", "enum": ["code-review"] },
+        "attempt": { "type": "integer", "minimum": 1 }
+      },
+      "required": ["status", "reason", "retryable", "stage", "attempt"]
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "status": { "type": "string", "enum": ["success"] },
+        "data": {
+          "type": "object",
+          "properties": {
+            "tests": {
+              "type": "array",
+              "minItems": 5,
+              "items": {
+                "type": "object",
+                "properties": {
+                  "test_name": { "type": "string", "pattern": "^test_[a-z0-9_]+$" },
+                  "type": { "type": "string", "enum": ["happy_path", "edge_case", "failure_mode"] },
+                  "code": { "type": "string" },
+                  "mocked_dependencies": { "type": "array", "items": { "type": "string" } }
+                },
+                "required": ["test_name", "type", "code", "mocked_dependencies"]
+              }
+            }
+          },
+          "required": ["tests"]
+        }
+      },
+      "required": ["status", "data"]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "status": { "type": "string", "enum": ["failed"] },
+        "reason": { "type": "string" },
+        "retryable": { "type": "boolean" },
+        "stage": { "type": "string", "enum": ["test-generation"] },
+        "attempt": { "type": "integer", "minimum": 1 }
+      },
+      "required": ["status", "reason", "retryable", "stage", "attempt"]
+    }
+  ]
+}

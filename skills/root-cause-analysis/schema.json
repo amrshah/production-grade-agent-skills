@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "status": { "type": "string", "enum": ["success"] },
+        "data": {
+          "type": "object",
+          "properties": {
+            "hypotheses": {
+              "type": "array",
+              "minItems": 2,
+              "items": { "type": "string" }
+            },
+            "validation_steps": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "type": "string" }
+            },
+            "most_likely_cause": { "type": "string" },
+            "confidence_score": { "type": "number", "minimum": 0, "maximum": 1 }
+          },
+          "required": ["hypotheses", "validation_steps", "most_likely_cause", "confidence_score"]
+        }
+      },
+      "required": ["status", "data"]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "status": { "type": "string", "enum": ["failed"] },
+        "reason": { "type": "string" },
+        "retryable": { "type": "boolean" },
+        "stage": { "type": "string", "enum": ["root-cause-analysis"] },
+        "attempt": { "type": "integer", "minimum": 1 }
+      },
+      "required": ["status", "reason", "retryable", "stage", "attempt"]
+    }
+  ]
+}
