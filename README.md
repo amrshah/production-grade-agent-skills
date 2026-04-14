@@ -1,6 +1,6 @@
-# AI Software Factory: Skill Layer (L1)
+# Agentic Software Development Pipeline: Skill Layer (L1)
 
-This repository contains the foundational Skill Layer (L1) components for the AI Software Factory. Unlike traditional LLM prompts, these skills are designed as strict, deterministic-format machine-validated execution units.
+This repository contains the foundational Skill Layer (L1) components for the Agentic Software Development Pipeline. Unlike traditional LLM prompts, these skills are designed as strict, deterministic-format machine-validated execution units.
 
 These components form the reliable base required before validation and retry (L2), orchestration (L3), and autonomous factory operations (L4) can safely occur.
 
